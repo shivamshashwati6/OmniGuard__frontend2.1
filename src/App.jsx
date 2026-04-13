@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar'
 import TopNav from './components/TopNav'
 import Dashboard from './pages/Dashboard'
 import ActiveThreats from './pages/ActiveThreats'
+import ReportEmergency from './pages/ReportEmergency'
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -16,10 +17,11 @@ function App() {
       <div className="flex-1 flex flex-col min-w-0 relative">
         <TopNav />
         
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto p-6 md:p-8">
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'alerts' && <ActiveThreats />}
-          {!['dashboard', 'alerts'].includes(activeTab) && (
+          {activeTab === 'sos' && <ReportEmergency />}
+          {!['dashboard', 'alerts', 'sos'].includes(activeTab) && (
             <div className="flex flex-col items-center justify-center h-full text-slate-400">
               <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
                 <span className="text-2xl">🚧</span>
