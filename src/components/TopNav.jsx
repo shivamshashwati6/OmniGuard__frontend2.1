@@ -37,8 +37,8 @@ export default function TopNav() {
           
           <div className="flex items-center gap-3 cursor-pointer group">
             <div className="text-right hidden sm:block">
-              <p className="text-sm font-bold text-slate-900 leading-none">Command Center</p>
-              <p className="text-[10px] text-slate-500 font-mono">ID-2490-ALPHA</p>
+              <p className="text-sm font-bold text-slate-900 leading-none">Coordinator Mode</p>
+              <p className="text-[10px] text-emerald-500 font-mono">coordinator@omniguard.io</p>
             </div>
             <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center border-2 border-slate-200 group-hover:border-emerald-500 transition-colors overflow-hidden">
               <User size={24} className="text-slate-400" />

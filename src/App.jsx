@@ -4,6 +4,7 @@ import TopNav from './components/TopNav'
 import Dashboard from './pages/Dashboard'
 import ActiveThreats from './pages/ActiveThreats'
 import ReportEmergency from './pages/ReportEmergency'
+import CommanderCenter from './pages/CommanderCenter'
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -21,7 +22,8 @@ function App() {
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'alerts' && <ActiveThreats />}
           {activeTab === 'sos' && <ReportEmergency />}
-          {!['dashboard', 'alerts', 'sos'].includes(activeTab) && (
+          {activeTab === 'profile' && <CommanderCenter />}
+          {!['dashboard', 'alerts', 'sos', 'profile'].includes(activeTab) && (
             <div className="flex flex-col items-center justify-center h-full text-slate-400">
               <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
                 <span className="text-2xl">🚧</span>
