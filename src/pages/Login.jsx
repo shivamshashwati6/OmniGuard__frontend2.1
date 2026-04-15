@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Lock, Mail, ChevronRight, Activity, AlertCircle } from 'lucide-react';
@@ -26,7 +25,6 @@ export default function Login({ onLogin }) {
       } else if (email === 'civilian@omniguard.io') {
         role = 'civilian';
       } else if (email.includes('@omniguard.io')) {
-        // Fallback or generic logic
         role = 'civilian';
       } else {
         setError('Unauthorized domain. Please use your @omniguard.io credentials.');
@@ -34,7 +32,7 @@ export default function Login({ onLogin }) {
         return;
       }
 
-      // Basic access code validation (mock)
+      // Basic access code validation
       if (accessCode.length < 4) {
         setError('Invalid Access Code. Minimum 4 digits required.');
         setIsLoading(false);
@@ -71,7 +69,7 @@ export default function Login({ onLogin }) {
             <Shield size={40} className="text-slate-900" />
           </div>
           <h1 className="text-4xl font-black text-white tracking-tighter mb-2">OMNIGUARD</h1>
-          <p className="text-slate-500 font-mono text-xs uppercase tracking-[0.3em]">Advanced Crisis Management</p>
+          <p className="text-slate-500 font-mono text-xs uppercase tracking-[0.3em]">Advanced Crisis Management v2.2</p>
         </div>
 
         <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 p-8 md:p-10 rounded-[2.5rem] shadow-2xl overflow-hidden relative group">
@@ -89,66 +87,10 @@ export default function Login({ onLogin }) {
                   className="w-full bg-slate-800/50 border border-slate-700/50 rounded-2xl py-4 pl-12 pr-4 text-white focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 outline-none transition-all placeholder:text-slate-600"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-=======
-import React from 'react';
-import { Shield, Mail, Lock, CheckCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
-
-const Login = ({ onLogin }) => {
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      {/* Branding Header */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col items-center mb-8"
-      >
-        <div className="relative mb-4">
-          <div className="absolute inset-0 bg-red-500/20 blur-xl rounded-full" />
-          <Shield className="w-12 h-12 text-red-500 relative z-10" />
-        </div>
-        <h1 className="text-4xl tracking-widest text-white font-light">
-          <span className="font-bold">OMNI</span>GUARD
-        </h1>
-        <p className="text-[10px] tracking-[0.3em] text-slate-500 mt-2 font-mono uppercase">
-          Crisis Management System
-        </p>
-      </motion.div>
-
-      {/* Login Card */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
-        className="w-full max-w-md bg-brand-card/50 backdrop-blur-md border border-slate-800 rounded-2xl overflow-hidden tactical-glow"
-      >
-        <div className="p-8">
-          <div className="flex flex-col items-center mb-8">
-            <h2 className="text-xs font-bold tracking-[0.2em] text-slate-400 uppercase">
-              Secure Authentication
-            </h2>
-          </div>
-
-          <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); onLogin(); }}>
-            {/* Operator Email */}
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold tracking-widest text-slate-500 uppercase ml-1">
-                Operator Email
-              </label>
-              <div className="relative group">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-brand-primary transition-colors">
-                  <Mail className="w-4 h-4" />
-                </div>
-                <input 
-                  type="email" 
-                  placeholder="operator@omniguard.io"
-                  className="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl py-3 pl-10 pr-4 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-primary/50 focus:ring-1 focus:ring-brand-primary/20 transition-all"
->>>>>>> origin/main
                 />
               </div>
             </div>
 
-<<<<<<< HEAD
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Access Code</label>
               <div className="relative">
@@ -160,26 +102,10 @@ const Login = ({ onLogin }) => {
                   className="w-full bg-slate-800/50 border border-slate-700/50 rounded-2xl py-4 pl-12 pr-4 text-white focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 outline-none transition-all placeholder:text-slate-600"
                   value={accessCode}
                   onChange={(e) => setAccessCode(e.target.value)}
-=======
-            {/* Access Code */}
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold tracking-widest text-slate-500 uppercase ml-1">
-                Access Code
-              </label>
-              <div className="relative group">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-brand-primary transition-colors">
-                  <Lock className="w-4 h-4" />
-                </div>
-                <input 
-                  type="password" 
-                  placeholder="••••••••"
-                  className="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl py-3 pl-10 pr-4 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-brand-primary/50 focus:ring-1 focus:ring-brand-primary/20 transition-all"
->>>>>>> origin/main
                 />
               </div>
             </div>
 
-<<<<<<< HEAD
             {error && (
               <motion.div 
                 initial={{ opacity: 0, x: -10 }}
@@ -211,54 +137,16 @@ const Login = ({ onLogin }) => {
             <p className="text-[10px] text-slate-600 font-mono text-center">
               SYSTEM ACCESS IS MONITORED. UNAUTHORIZED ATTEMPTS WILL BE TRACED.
             </p>
-            <div className="flex gap-4 opacity-30 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
-              {/* Optional footer info or logos */}
-=======
-            {/* Authenticate Button */}
-            <button 
-              type="submit"
-              className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white text-xs font-bold tracking-[0.2em] py-4 rounded-xl shadow-lg shadow-brand-primary/20 transition-all active:scale-[0.98] uppercase"
-            >
-              Authenticate
-            </button>
-          </form>
-
-          {/* Card Footer */}
-          <div className="mt-8 pt-8 border-t border-slate-800 flex justify-center items-center gap-4">
-            <div className="flex items-center gap-2 text-[8px] font-mono tracking-widest text-slate-500 uppercase">
-              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-              Encrypted_Channel
-            </div>
-            <span className="text-slate-800 text-[8px]">•</span>
-            <div className="text-[8px] font-mono tracking-widest text-slate-500 uppercase">
-              AES-256
-            </div>
-            <span className="text-slate-800 text-[8px]">•</span>
-            <div className="text-[8px] font-mono tracking-widest text-slate-500 uppercase">
-              JWT_Auth
->>>>>>> origin/main
+            <div className="flex gap-4 opacity-30 grayscale hover:grayscale-0 hover:opacity-100 transition-all text-[8px] font-mono tracking-widest text-slate-500 uppercase">
+              <span>Encrypted_Channel</span>
+              <span>•</span>
+              <span>AES-256</span>
+              <span>•</span>
+              <span>JWT_Auth</span>
             </div>
           </div>
         </div>
       </motion.div>
-<<<<<<< HEAD
     </div>
   );
 }
-=======
-
-      {/* Page Footer */}
-      <motion.p 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="mt-8 text-[10px] tracking-[0.1em] text-slate-600 font-mono uppercase"
-      >
-        OmniGuard v2.2 • Authorized Personnel Only
-      </motion.p>
-    </div>
-  );
-};
-
-export default Login;
->>>>>>> origin/main
