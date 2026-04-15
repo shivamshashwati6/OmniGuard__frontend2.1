@@ -63,6 +63,11 @@ function App() {
           
           <main className="flex-1 overflow-y-auto p-6 md:p-8">
             <Routes>
+              {/* Authenticated Redirect for Login */}
+              <Route path="/login" element={
+                <Navigate to="/" replace />
+              } />
+
               {/* Coordinator Routes */}
               <Route path="/dashboard" element={
                 <ProtectedRoute user={user} allowedRoles={['coordinator']}>
@@ -86,6 +91,13 @@ function App() {
                   <IncidentResponseView />
                 </ProtectedRoute>
               } />
+              <Route path="/maps" element={
+                <ProtectedRoute user={user} allowedRoles={['responder', 'coordinator']}>
+                  <div className="h-full bg-white rounded-[2.5rem] border border-slate-200 overflow-hidden relative">
+                    <IncidentResponseView />
+                  </div>
+                </ProtectedRoute>
+              } />
 
               {/* Civilian Routes */}
               <Route path="/sos" element={
@@ -93,21 +105,54 @@ function App() {
                   <ReportEmergency />
                 </ProtectedRoute>
               } />
-
-              {/* Common Routes */}
-              <Route path="/profile" element={
-                <ProtectedRoute user={user}>
-                  <div className="flex flex-col items-center justify-center h-full text-slate-400">
-                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                      <span className="text-2xl">👤</span>
+              <Route path="/status" element={
+                <ProtectedRoute user={user} allowedRoles={['civilian']}>
+                  <div className="flex flex-col items-center justify-center h-full text-slate-400 bg-white rounded-[2.5rem] border border-slate-200 shadow-sm">
+                    <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-6">
+                      <Activity size={40} className="text-emerald-500" />
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900">{user.name}</h3>
-                    <p className="italic text-emerald-600 font-mono uppercase text-xs mt-1">{user.role} ACCESS</p>
+                    <h3 className="text-2xl font-bold text-slate-900 uppercase tracking-tight">Emergency Tracking</h3>
+                    <p className="mt-2 text-slate-500 font-medium">No active reports currently being tracked for your ID.</p>
+                    <button 
+                      onClick={() => window.location.href = '/sos'}
+                      className="mt-8 px-6 py-3 bg-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:bg-emerald-600 transition-all"
+                    >
+                      Report New Emergency
+                    </button>
                   </div>
                 </ProtectedRoute>
               } />
 
-              {/* Redirects based on role */}
+              {/* Common Routes */}
+              <Route path="/profile" element={
+                <ProtectedRoute user={user}>
+                  <div className="flex flex-col items-center justify-center h-full text-slate-400 bg-white rounded-[2.5rem] border border-slate-200 shadow-sm">
+                    <div className="w-24 h-24 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-center mb-6 shadow-sm">
+                      <span className="text-4xl">👤</span>
+                    </div>
+                    <div className="text-center">
+                      <h3 className="text-2xl font-bold text-slate-900 tracking-tight">{user.name}</h3>
+                      <p className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase tracking-widest mt-3 border border-emerald-100">
+                        <ShieldCheck size={12} />
+                        {user.role} Access Verified
+                      </p>
+                    </div>
+                    
+                    <div className="mt-12 grid grid-cols-2 gap-4 w-full max-w-md px-6">
+                      <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Status</p>
+                        <p className="text-sm font-bold text-slate-700">Online</p>
+                      </div>
+                      <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Last Sync</p>
+                        <p className="text-sm font-bold text-slate-700">Just Now</p>
+                      </div>
+                    </div>
+                  </div>
+                </ProtectedRoute>
+              } />
+
+              {/* Entry Point Redirects based on role */}
               <Route path="/" element={
                 user.role === 'coordinator' ? <Navigate to="/dashboard" replace /> :
                 user.role === 'responder' ? <Navigate to="/incidents" replace /> :
