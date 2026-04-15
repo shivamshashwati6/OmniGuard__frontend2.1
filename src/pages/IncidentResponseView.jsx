@@ -97,14 +97,24 @@ export default function IncidentResponseView() {
             </div>
           </div>
 
-          <div className="absolute bottom-6 left-6 right-6 flex gap-4">
-            <button className="flex-1 py-4 bg-emerald-500 text-white font-black text-lg rounded-2xl shadow-xl shadow-emerald-500/30 hover:bg-emerald-600 transition-all flex items-center justify-center gap-3 active:scale-95">
-              <CheckCircle size={24} />
-              MARK AS RESOLVED
-            </button>
-            <button className="w-16 h-16 bg-white border border-slate-200 rounded-2xl flex items-center justify-center text-rose-500 shadow-xl hover:bg-rose-50 transition-colors">
-              <AlertTriangle size={24} />
-            </button>
+          <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-3">
+            <div className="flex gap-3">
+              <button className="flex-1 py-3 bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 hover:bg-blue-600 transition-all active:scale-95 uppercase tracking-widest text-xs">
+                In Transit
+              </button>
+              <button className="flex-1 py-3 bg-amber-500 text-white font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:bg-amber-600 transition-all active:scale-95 uppercase tracking-widest text-xs">
+                On Scene
+              </button>
+            </div>
+            <div className="flex gap-3">
+              <button className="flex-1 py-4 bg-emerald-500 text-white font-black text-lg rounded-2xl shadow-xl shadow-emerald-500/30 hover:bg-emerald-600 transition-all flex items-center justify-center gap-3 active:scale-95">
+                <CheckCircle size={24} />
+                MARK AS RESOLVED
+              </button>
+              <button className="w-16 h-16 bg-white border border-slate-200 rounded-2xl flex items-center justify-center text-rose-500 shadow-xl hover:bg-rose-50 transition-colors shrink-0">
+                <AlertTriangle size={24} />
+              </button>
+            </div>
           </div>
         </div>
       </div>

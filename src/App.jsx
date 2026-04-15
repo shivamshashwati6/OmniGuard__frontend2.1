@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
+import { Activity } from 'lucide-react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
 import TopNav from './components/TopNav'
+import Login from './pages/Login'
+import ProtectedRoute from './components/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
 import ActiveThreats from './pages/ActiveThreats'
 import ReportEmergency from './pages/ReportEmergency'
 import CommanderCenter from './pages/CommanderCenter'
 import IncidentResponseView from './pages/IncidentResponseView'
-import Login from './pages/Login'
-import ProtectedRoute from './components/ProtectedRoute'
+import TacticalMapView from './pages/TacticalMapView'
 
 const INITIAL_INCIDENTS = [
   { id: 'INC-701', type: 'Structural Fire', lat: 26.1445, lng: 91.7362, status: 'detected', severity: 'high' },
@@ -17,15 +19,22 @@ const INITIAL_INCIDENTS = [
 ]
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('omni_user');
+    return saved ? JSON.parse(saved) : null;
+  })
   const [incidents, setIncidents] = useState(INITIAL_INCIDENTS)
 
   const handleLogin = (userData) => {
     setUser(userData)
+    localStorage.setItem('omni_user', JSON.stringify(userData));
   }
 
   const handleLogout = () => {
-    setUser(null)
+    setUser(null);
+    localStorage.removeItem('omni_user');
+    localStorage.clear();
+    sessionStorage.clear();
   }
 
   const updateIncidentStatus = (id, newStatus) => {
@@ -56,17 +65,42 @@ function App() {
         <Sidebar user={user} onLogout={handleLogout} />
         
         <div className="flex-1 flex flex-col min-w-0 relative h-full">
-          {/* Scanline Effect Overlay (Subtle) from the remote version */}
+          {/* Scanline Effect Overlay (Subtle) */}
           <div className="absolute inset-0 pointer-events-none z-50 opacity-[0.01] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
           
           <TopNav user={user} />
           
           <main className="flex-1 overflow-y-auto p-6 md:p-8">
             <Routes>
+              {/* Profile Route */}
+              <Route path="/profile" element={
+                <ProtectedRoute user={user}>
+                  <div className="flex flex-col items-center justify-center h-full text-slate-400">
+                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                      <span className="text-2xl">👤</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900">{user.name}</h3>
+                    <p className="italic text-emerald-600 font-mono uppercase text-xs mt-1">{user.role} ACCESS</p>
+                  </div>
+                </ProtectedRoute>
+              } />
+
+              {/* Home Redirect based on role */}
+              <Route path="/" element={
+                 user.role === 'coordinator' ? <Navigate to="/dashboard" replace /> :
+                 user.role === 'responder' ? <Navigate to="/incidents" replace /> :
+                 <Navigate to="/sos" replace />
+              } />
+
               {/* Coordinator Routes */}
               <Route path="/dashboard" element={
                 <ProtectedRoute user={user} allowedRoles={['coordinator']}>
                   <Dashboard incidents={incidents} onUpdateStatus={updateIncidentStatus} />
+                </ProtectedRoute>
+              } />
+              <Route path="/maps" element={
+                <ProtectedRoute user={user} allowedRoles={['coordinator', 'responder']}>
+                  <TacticalMapView incidents={incidents} />
                 </ProtectedRoute>
               } />
               <Route path="/coordinator" element={
@@ -75,7 +109,7 @@ function App() {
                 </ProtectedRoute>
               } />
               <Route path="/alerts" element={
-                <ProtectedRoute user={user} allowedRoles={['coordinator', 'responder']}>
+                <ProtectedRoute user={user} allowedRoles={['coordinator']}>
                   <ActiveThreats />
                 </ProtectedRoute>
               } />
@@ -93,41 +127,17 @@ function App() {
                   <ReportEmergency />
                 </ProtectedRoute>
               } />
-
-              {/* Common Routes */}
-              <Route path="/profile" element={
-                <ProtectedRoute user={user}>
-                  <div className="flex flex-col items-center justify-center h-full text-slate-400">
-                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                      <span className="text-2xl">👤</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-slate-900">{user.name}</h3>
-                    <p className="italic text-emerald-600 font-mono uppercase text-xs mt-1">{user.role} ACCESS</p>
+              
+              <Route path="/status" element={
+                <ProtectedRoute user={user} allowedRoles={['civilian']}>
+                  <div className="flex flex-col items-center justify-center h-full text-slate-400 italic">
+                     <Activity className="mb-4 opacity-20" size={48} />
+                     <p>Search active requested is currently offline...</p>
                   </div>
                 </ProtectedRoute>
               } />
 
-              {/* Redirects based on role */}
-              <Route path="/" element={
-                user.role === 'coordinator' ? <Navigate to="/dashboard" replace /> :
-                user.role === 'responder' ? <Navigate to="/incidents" replace /> :
-                <Navigate to="/sos" replace />
-              } />
-              
-              <Route path="*" element={
-                <div className="flex flex-col items-center justify-center h-full text-slate-400">
-                  <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                    <span className="text-2xl">🚧</span>
-                  </div>
-                  <p className="italic">This module is currently being deployed...</p>
-                  <button 
-                    onClick={() => window.location.href = '/'}
-                    className="mt-4 text-emerald-600 font-bold hover:underline"
-                  >
-                    Return Home
-                  </button>
-                </div>
-              } />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
         </div>

@@ -39,7 +39,7 @@ export default function TacticalMap({ incidents }) {
   const position = [26.1445, 91.7362];
 
   return (
-    <div className="h-[400px] w-full rounded-2xl border border-slate-800 overflow-hidden tactical-glow relative z-0">
+    <div className="h-full w-full rounded-2xl border border-slate-800 overflow-hidden tactical-glow relative z-0">
       <MapContainer 
         center={position} 
         zoom={12} 

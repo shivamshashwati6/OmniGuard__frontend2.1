@@ -1,7 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Activity, ShieldAlert, Users, Zap, TrendingUp, Truck, CheckCircle2 } from 'lucide-react'
-import TacticalMap from '../components/TacticalMap'
 
 const stats = [
   { label: 'Live Incidents', value: '12', icon: ShieldAlert, color: 'text-red-500', trend: '+2' },
@@ -56,15 +55,6 @@ export default function Dashboard({ incidents, onUpdateStatus }) {
           </motion.div>
         ))}
       </div>
-
-      {/* Tactical Map Section */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between px-2">
-          <h3 className="text-xs font-bold text-slate-900 uppercase tracking-[0.2em]">Live Tactical Deployment</h3>
-          <span className="text-[10px] text-slate-500 font-mono uppercase">Zone: Assam_Guwahati_01</span>
-        </div>
-        <TacticalMap incidents={incidents} />
-      </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Incident Feed */}
