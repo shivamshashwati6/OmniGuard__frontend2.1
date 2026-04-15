@@ -25,7 +25,9 @@ function App() {
   }
 
   const handleLogout = () => {
-    setUser(null)
+    setUser(null);
+    localStorage.clear();
+    sessionStorage.clear();
   }
 
   const updateIncidentStatus = (id, newStatus) => {
@@ -91,6 +93,15 @@ function App() {
               <Route path="/sos" element={
                 <ProtectedRoute user={user} allowedRoles={['civilian', 'coordinator']}>
                   <ReportEmergency />
+                </ProtectedRoute>
+              } />
+              <Route path="/status" element={
+                <ProtectedRoute user={user} allowedRoles={['civilian']}>
+                  <div className="flex flex-col items-center justify-center h-full text-slate-400">
+                    <Activity size={48} className="mb-4 opacity-20" />
+                    <h3 className="text-xl font-bold text-slate-900">Current Incident Status</h3>
+                    <p className="italic">No active reports found for your ID.</p>
+                  </div>
                 </ProtectedRoute>
               } />
 
